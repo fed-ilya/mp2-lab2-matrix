@@ -34,7 +34,7 @@ TEST(TVector, copied_vector_is_equal_to_source_one)
   ADD_FAILURE();
 }
 
-TEST(TVector, copied_vector_has_its_own_memory)
+TEST(TVector, copied_vector_has_its_own_memory) //ѕроблемки возможно будут. —оздаем копию вектора, мен€ем оригинал и убеждаемс€, что копи€ не помен€лась
 {
   ADD_FAILURE();
 }
@@ -81,7 +81,7 @@ TEST(TVector, can_assign_vectors_of_equal_size)
   ADD_FAILURE();
 }
 
-TEST(TVector, assign_operator_change_vector_size)
+TEST(TVector, assign_operator_change_vector_size) //оператор присваивани€ мен€ет размер вектора
 {
   ADD_FAILURE();
 }

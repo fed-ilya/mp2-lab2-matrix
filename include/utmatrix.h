@@ -67,40 +67,60 @@ TVector<T>::TVector(int s, int si)
 		throw s;
 	Size = s;
 	pVector = new T[Size];
+	StartIndex = si;
 
 } /*-------------------------------------------------------------------------*/
 
 template <class T> //конструктор копирования
 TVector<T>::TVector(const TVector<T> &v)
 {
+	Size = v.Size;
+	pVector = new T[Size];
+	for (int i = 0; i < Size; i++) pVector[i] = v.pVector[i];
+	StartIndex = v.StartIndex;
 } /*-------------------------------------------------------------------------*/
 
 template <class T>
 TVector<T>::~TVector()
 {
+	delete[] pVector;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // доступ
-T& TVector<T>::operator[](int pos)
-{
+T& TVector<T>::operator[](const int pos)
+{	
+	if (pos <= 0 || pos > MAX_VECTOR_SIZE) throw "wrong size";
 	return pVector[pos];
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сравнение
 bool TVector<T>::operator==(const TVector &v) const
 {
+	if (Size != v.Size) return false;
+	for (int i = 0; i < Size; i++) {
+		if (pVector[i] != v.pVector[i]) return false;
+	}
 	return true;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сравнение
 bool TVector<T>::operator!=(const TVector &v) const
 {
-	return true;
+	return !(*this == v);
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // присваивание
 TVector<T>& TVector<T>::operator=(const TVector &v)
 {
+	if (this != &v) {
+		if (Size != v.Size) {
+			delete[] pVector;
+			Size = v.Size;
+			pVector = new T[Size];
+		}
+	}
+	for (int i = 0; i < Size; i++) pVector[i] = v.pVector[i];
+	StartIndex = v.StartIndex;
 	return *this;
 } /*-------------------------------------------------------------------------*/
 
