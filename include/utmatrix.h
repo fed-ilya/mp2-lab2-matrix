@@ -74,12 +74,10 @@ TVector<T>::TVector(int s, int si)
 template <class T> //конструктор копирования
 TVector<T>::TVector(const TVector<T> &v)
 {
-	if (this != &v) {
-		Size = v.Size;
-		pVector = new T[Size];
-		for (int i = 0; i < Size; i++) pVector[i] = v.pVector[i];
-		StartIndex = v.StartIndex;
-	}
+	Size = v.Size;
+	pVector = new T[Size];
+	for (int i = 0; i < Size; i++) pVector[i] = v.pVector[i];
+	StartIndex = v.StartIndex;
 } /*-------------------------------------------------------------------------*/
 
 template <class T>
@@ -122,9 +120,8 @@ TVector<T>& TVector<T>::operator=(const TVector &v)
 		}
 		for (int i = 0; i < Size; i++) pVector[i] = v.pVector[i];
 		StartIndex = v.StartIndex;
-		return *this;
 	}
-	else throw "Самокопирование";
+	return *this;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // прибавить скаляр
@@ -217,6 +214,9 @@ public:
 template <class T>
 TMatrix<T>::TMatrix(int s): TVector<TVector<T> >(s)
 {
+	Size = s;
+	for (int i = 0; i < Size; i++) TVector<T> tmp(Size - i, i);
+	pVector[i] = tmp;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // конструктор копирования
