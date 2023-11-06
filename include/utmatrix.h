@@ -190,11 +190,13 @@ public:
   TMatrix(int s = 10);                           
   TMatrix(const TMatrix &mt);                    // копирование
   TMatrix(const TVector<TVector<T> > &mt); // преобразование типа
+  ~TMatrix();
   bool operator==(const TMatrix &mt) const;      // сравнение
   bool operator!=(const TMatrix &mt) const;      // сравнение
   TMatrix& operator= (const TMatrix &mt);        // присваивание
   TMatrix  operator+ (const TMatrix &mt);        // сложение
   TMatrix  operator- (const TMatrix &mt);        // вычитание
+  T operator* (const TMatrix& mt);			     // умножение
 
   // ввод / вывод
   friend istream& operator>>(istream &in, TMatrix &mt)
@@ -230,33 +232,56 @@ TMatrix<T>::TMatrix(const TVector<TVector<T> > &mt):
 template <class T> // сравнение
 bool TMatrix<T>::operator==(const TMatrix<T> &mt) const
 {
+	if (Size != mt.Size) return false;
+	for (int i = 0; i < Size; i++) { if (pVector[i] != m.pVector[i]) return false; }
 	return true;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сравнение
 bool TMatrix<T>::operator!=(const TMatrix<T> &mt) const
 {
-	return true;
+	if (Size != mt.Size) return true;
+	for (int i = 0; i < Size; i++) { if (pVector[i] != m.pVector[i]) return true; }
+	return false;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // присваивание
 TMatrix<T>& TMatrix<T>::operator=(const TMatrix<T> &mt)
 {
+	if (this == &mt) return *this;
+	if (Size != m.Size) {
+		delete[] pVector;
+		Size = m.Size;
+		pVector = new TVector<T>[Size];
+	}
+	for (int i = 0; i < Size; i++) { pVector[i] = mt.pVector[i]; }
 	return *this;
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // сложение
 TMatrix<T> TMatrix<T>::operator+(const TMatrix<T> &mt)
 {
-	return *this;
+	return TVector<TVector<T>>::operator+(mt); //Из-за преобразования типа вернет TMatrix<T>
 } /*-------------------------------------------------------------------------*/
 
 template <class T> // вычитание
 TMatrix<T> TMatrix<T>::operator-(const TMatrix<T> &mt)
 {
-	return *this;
+	return TVector<TVector<T>>::operator-(mt);
 
 } /*-------------------------------------------------------------------------*/
+
+template<class T>
+T TMatrix<T>::operator*(const TMatrix& mt)
+{
+	TMatrix<T> res(Size);
+	for (int i = 0; i < Size; i++) {
+		for (int j = 0; j < Size; i++) {
+			res[i][j] ;//i-строчка, j-столбец
+		}
+	}
+	return ;
+}
 
 // TVector О3 Л2 П4 С6
 // TMatrix О2 Л2 П3 С3
