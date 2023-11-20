@@ -153,7 +153,8 @@ TVector<T> TVector<T>::operator+(const TVector<T> &v)
 {
 	if (Size == v.Size) {
 		TVector<T> res(Size,v.StartIndex);//(Size)
-		for (int i = v.StartIndex; i < Size; i++) res.pVector[i] = pVector[i] + v.pVector[i]; //(int i = 0; i < Size; i++)
+
+		for (int i = res.StartIndex; i < Size; i++) res.pVector[i] = pVector[i] + v.pVector[i]; //(int i = 0; i < Size; i++)
 		return res;
 	}
 	else throw "different size";

@@ -28,7 +28,7 @@ TEST(TMatrix, copied_matrix_is_equal_to_source_one)////////////
 {
 	TMatrix<int> m(5);
 	for (int i = 0; i < m.GetSize(); ++i) {
-		TVector<int> tmp(m.GetSize()-i,i);
+		TVector<int> tmp(m.GetSize(),i);
 		for (int j = i; j < tmp.GetSize(); ++j) {
 			tmp[j] = 1;
 		}
@@ -194,7 +194,7 @@ TEST(TMatrix, can_add_matrices_with_equal_size)/////////////////
 {
 	TMatrix<int> m1(4);
 	for (int i = 0; i < m1.GetSize(); ++i) {
-		TVector<int> tmp(m1.GetSize() - i, i);
+		TVector<int> tmp(m1.GetSize(), i);
 		for (int j = i; j < tmp.GetSize(); ++j) {
 			tmp[j] = 1;
 		}
@@ -203,7 +203,7 @@ TEST(TMatrix, can_add_matrices_with_equal_size)/////////////////
 	cout << m1 << endl;
 	TMatrix<int> m2(4);
 	for (int i = 0; i < m2.GetSize(); ++i) {
-		TVector<int> tmp(m2.GetSize() - i, i);
+		TVector<int> tmp(m2.GetSize(), i);
 		for (int j = i; j < tmp.GetSize(); ++j) {
 			tmp[j] = 1;
 		}
@@ -212,7 +212,7 @@ TEST(TMatrix, can_add_matrices_with_equal_size)/////////////////
 	cout << m2 << endl;
 	TMatrix<int> res(4);
 	for (int i = 0; i < res.GetSize(); ++i) {
-		TVector<int> tmp(res.GetSize() - i, i);
+		TVector<int> tmp(res.GetSize(), i);
 		for (int j = i; j < tmp.GetSize(); ++j) {
 			tmp[j] = 2;
 		}
