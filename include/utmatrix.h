@@ -152,9 +152,8 @@ template <class T> // сложение
 TVector<T> TVector<T>::operator+(const TVector<T> &v)
 {
 	if (Size == v.Size) {
-		TVector<T> res(Size,v.StartIndex);//(Size)
-
-		for (int i = res.StartIndex; i < Size; i++) res.pVector[i] = pVector[i] + v.pVector[i]; //(int i = 0; i < Size; i++)
+		TVector<T> res(Size,v.StartIndex);
+		for (int i = 0; i < Size-res.StartIndex; i++) res.pVector[i] = pVector[i] + v.pVector[i]; 
 		return res;
 	}
 	else throw "different size";
@@ -164,8 +163,8 @@ template <class T> // вычитание
 TVector<T> TVector<T>::operator-(const TVector<T> &v)
 {
 	if (Size == v.Size) {
-		TVector<T> res(Size);
-		for (int i = 0; i < Size; i++) res.pVector[i] = pVector[i] - v.pVector[i];
+		TVector<T> res(Size, v.StartIndex);
+		for (int i = 0; i < Size - res.StartIndex; i++) res.pVector[i] = pVector[i] - v.pVector[i];
 		return res;
 	}
 	else throw "different size";
@@ -176,7 +175,7 @@ T TVector<T>::operator*(const TVector<T> &v)
 {
 	if (Size == v.Size) {
 		T summ = pVector[0] * v.pVector[0];
-		for (int i = 1; i < Size; i++) summ = summ + pVector[i] * v.pVector[i];
+		for (int i = 1; i < Size - v.StartIndex; i++) summ = summ + pVector[i] * v.pVector[i];
 		return summ;
 	}
 	else throw "different size";
@@ -190,13 +189,13 @@ class TMatrix : public TVector<TVector<T> >
 public:
   TMatrix(int s = 10);                           
   TMatrix(const TMatrix &mt);                    // копирование
-  TMatrix(const TVector<TVector<T> > &mt); // преобразование типа
+  TMatrix(const TVector<TVector<T> > &mt);       // преобразование типа
   bool operator==(const TMatrix &mt) const;      // сравнение
   bool operator!=(const TMatrix &mt) const;      // сравнение
   TMatrix& operator= (const TMatrix &mt);        // присваивание
   TMatrix  operator+ (const TMatrix &mt);        // сложение
   TMatrix  operator- (const TMatrix &mt);        // вычитание
-  T operator* (const TMatrix& mt);			     // умножение
+  TVector<T> operator* (const TMatrix &mt);	     // умножение
 
   // ввод / вывод
   friend istream& operator>>(istream &in, TMatrix &mt)
@@ -273,19 +272,17 @@ TMatrix<T> TMatrix<T>::operator-(const TMatrix<T> &mt)
 	return TVector<TVector<T>>::operator-(mt);
 
 } /*-------------------------------------------------------------------------*/
-/*
+
 template<class T>
-T TMatrix<T>::operator*(const TMatrix& mt)
+TVector<T> TMatrix<T>::operator*(const TMatrix<T> &mt)
 {
-	TMatrix<T> res(Size);
+	TVector<T> res(Size);
 	for (int i = 0; i < Size; i++) {
-		for (int j = 0; j < Size; i++) {
-			res[i][j] ;//i-строчка, j-столбец
-		}
+		res[i] = TVector<TVector<T> >::operator*(mt[i]);
 	}
-	return ;
+	return res;
 }
-*/
+
 
 // TVector О3 Л2 П4 С6
 // TMatrix О2 Л2 П3 С3
